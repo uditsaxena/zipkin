@@ -133,6 +133,14 @@
       <optional>true</optional>
     </dependency>
 
+    <!-- Sumo -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>zipkin-autoconfigure-storage-sumo</artifactId>
+      <version>1.27.1-SNAPSHOT</version>
+      <optional>true</optional>
+    </dependency>
+
     <!-- Trace api controller activity with Brave -->
     <dependency>
       <groupId>io.zipkin.brave</groupId>

@@ -42,6 +42,7 @@
     <module>storage-elasticsearch-aws</module>
     <module>storage-mysql</module>
     <module>metrics-prometheus</module>
+    <module>storage-sumo</module>
   </modules>
 
   <dependencies>
