@@ -46,8 +46,8 @@ zipkin:
       # Experimentally, it works with: max-spans of 500000 with JRE argument -Xmx600m.
       max-spans: 500000
     sumo:
-      access-id: suX5wT4cc4fL03
-      access-key: QvqORHYJyztvQyqUmaWl8wJzQdWbMgstnk50Kr1KupAdakRSP1iGf9rS7NqeqSsQ
+      access-id: suJiAqsc6EgbDP
+      access-key: Mquz2ZyJpnZrB5DwRhmKOMK3SjUH64gOuAIdrSStVA6WgfSiGZP5tt8CBeV9Tfdb
       apiURL: https://udit-api.sumologic.net
     cassandra:
       # Comma separated list of host addresses part of Cassandra cluster. Ports default to 9042 but you can also specify a custom port with 'host:port'.
