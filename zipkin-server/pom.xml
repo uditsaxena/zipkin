@@ -137,7 +137,7 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>zipkin-autoconfigure-storage-sumo</artifactId>
-      <version>1.27.1-SNAPSHOT</version>
+      <version>1.28.2-SNAPSHOT</version>
       <optional>true</optional>
     </dependency>
 

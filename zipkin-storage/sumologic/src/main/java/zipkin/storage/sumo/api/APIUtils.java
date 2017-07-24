@@ -7,22 +7,18 @@ import java.util.Date;
 
 public class APIUtils {
 
-  public static final int DEFAULT_LIMIT = 10;
+  public static final int DEFAULT_LIMIT = 30;
   public static final int DEFAULT_OFFSET = 0;
-  public static final int DEFAULT_FROM = 3;
-  public static final int DEFAULT_TO = 0;
+  private static final double DEFAULT_FROM = 1;
+  private static final String AND_NOT = " AND (_collector=\"udit-*\") AND !(TELEMETRY) AND !(_source=api)";
+  private static final String BASIC_QUERY = " ZipkinReporter" + AND_NOT;
 
   public static SearchRequest buildSearchRequestForServiceNames() {
-    String serviceNameQueryStr = "4a8e2dae5a09ab44";
-    return buildDefaultSearchRequest(serviceNameQueryStr);
-  }
-
-  private static SearchRequest buildDefaultSearchRequest(String query) {
     Date currentTime = new Date();
-    Date from = new Date(currentTime.getTime() - (1000 * 60 * 60 * DEFAULT_FROM));
+    Date from = new Date(currentTime.getTime() - (int) (1000 * 60 * 60 * DEFAULT_FROM));
     Date to = new Date(currentTime.getTime());
 
-    return buildSearchRequest(query, from, to, DEFAULT_LIMIT, DEFAULT_OFFSET);
+    return buildSearchRequest(BASIC_QUERY, from, to, DEFAULT_LIMIT, DEFAULT_OFFSET);
   }
 
   public static SearchRequest buildSearchRequestFromQuery(QueryRequest request) {
@@ -31,12 +27,25 @@ public class APIUtils {
     Date from = new Date(request.endTs - request.lookback);
 
     String query = "";
-    query += request.serviceName + " " + request.spanName;
+    query += request.serviceName + BASIC_QUERY;
     return new SearchRequest(query).withFromTime(from).withToTime(to).withLimit(limit).withOffset(DEFAULT_OFFSET);
   }
 
-  public static SearchRequest buildSearchRequestFromTraceId(long traceId) {
-    return buildDefaultSearchRequest(String.valueOf(traceId));
+  public static SearchRequest buildSearchRequestFromTraceId(String traceId) {
+    return buildDefaultSearchRequest(traceId);
+  }
+
+  public static SearchRequest nextOffset(SearchRequest request) {
+    return new SearchRequest(request.getQuery()).withFromTime(request.getFromTime()).withToTime(request.getToTime())
+      .withLimit(request.getLimit()).withOffset(request.getOffset() + DEFAULT_LIMIT);
+  }
+
+  private static SearchRequest buildDefaultSearchRequest(String query) {
+    Date currentTime = new Date();
+    Date from = new Date(currentTime.getTime() - (int) (1000 * 60 * 60 * DEFAULT_FROM));
+    Date to = new Date(currentTime.getTime());
+
+    return buildSearchRequest(query, from, to, DEFAULT_LIMIT, DEFAULT_OFFSET);
   }
 
   private static SearchRequest buildSearchRequest(String query, Date from, Date to, int limit, int offset) {
